@@ -1,0 +1,42 @@
+---
+# Server configuration
+timezone: Europe/Kiev
+
+# Package version
+php_version: 7.4
+mariadb_version: 10.4
+
+# Nginx configuration
+server_hostname: magento.local
+magento_dir: /var/www/html/magento
+
+# Database configuration
+db_host: localhost
+db_name: magento
+db_user: magento
+db_password: magento
+
+# Magento configuration
+magento_public_key: MAGENTO_PUBLIC_KEY
+magento_private_key: MAGENTO_PRIVATE_KEY
+
+magento_mode: default
+
+base_url: http://magento.local/
+use_rewrites: 1
+
+language: en_US
+currency: USD
+
+backend_frontname: admin
+admin_firstname: admin
+admin_lastname: admin
+admin_email: admin@admin.com
+admin_user: admin
+admin_password: admin123
+
+# Elasticsearch
+elasticsearch: 7.10
+
+# Redis
+redis: 6.0

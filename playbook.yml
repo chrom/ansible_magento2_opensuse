@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: yes
+  remote_user: devops_user
+  vars_files:
+    - vars/external_vars.yml
+  roles:
+    - configuration
+    - php
+#  tasks:
+#    - name: Include congurate
+#      include_tasks: main/tasks/congurate_host.yml
+#    - name: Include composer
+#      include_tasks: main/tasks/composer.yml
+#      args:
+#        apply:
+#          tags:
+#            - install
