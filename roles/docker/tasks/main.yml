@@ -1,0 +1,39 @@
+---
+# tasks file for docker
+- name: Install docker.
+  become: yes
+  zypper:
+    name: docker
+    state: present
+
+
+- name: Install docker.
+  become: yes
+  zypper:
+    name: docker-compose
+    state: present
+
+
+- name: Create Folder for project
+  become_user: devops_user
+  become: yes
+  file:
+    path: /home/devops_user/project
+    mode: 0755
+    state: directory
+  vars:
+    allow_world_readable_tmpfiles: true
+
+
+- name: Download magento 2 installer
+  become: yes
+  become_user: devops_user
+  get_url:
+    url: https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup
+    dest: /home/devops_user/project/onelinesetup
+    mode: 0755
+
+- name: Run magento 2 docker
+  become: yes
+  become_user: devops_user
+  shell: cd ~/project && /bin/bash ~/project/onelinesetup -- magento.test 2.4.2

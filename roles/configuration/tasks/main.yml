@@ -3,29 +3,48 @@
 - name: Update all packages
   community.general.zypper:
     name: '*'
-    state: latest
+    state: dist-upgrade
+    allow_vendor_change: true
+
 - name: Ensure chrony (for time synchronization) is installed.
   community.general.zypper:
     name: ntp
     state: present
+
 - name: Set Server Timezone to {{timezone}}
   timezone:
     name: "{{timezone}}"
+
 - name: Add the user 'devops_user' with a specific uid and a primary group of 'admin'
   ansible.builtin.user:
     name: devops_user
+    password: devops_user
     comment: devops user
     uid: 1040
     group: root
+
 - name: Install nmap
   community.general.zypper:
     name: nmap
     state: present
+
 - name: Install mc
   community.general.zypper:
     name: mc
     state: present
+
 - name: Installs git
   community.general.zypper:
     name: git
+    state: present
+
+- name: Install composer
+  community.general.zypper:
+    name: composer
+    state: present
+
+- name: install setfacl support
+  become: yes
+  community.general.zypper:
+    name: acl
     state: present

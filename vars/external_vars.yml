@@ -3,7 +3,7 @@
 timezone: Europe/Kiev
 
 # Package version
-php_version: 7.4
+php_version: 7
 mariadb_version: 10.4
 
 # Nginx configuration

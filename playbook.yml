@@ -5,8 +5,16 @@
   vars_files:
     - vars/external_vars.yml
   roles:
-    - configuration
-    - php
+    - { role: configuration, tags: ["configuration"] }
+
+- hosts: mage_app
+  remote_user: devops_user
+  vars_files:
+    - vars/external_vars.yml
+  roles:
+    - { role: php, tags: ["install"] }
+    - { role: docker, tags: ["install"] }
+
 #  tasks:
 #    - name: Include congurate
 #      include_tasks: main/tasks/congurate_host.yml

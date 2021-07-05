@@ -1,5 +1,17 @@
 ---
+- name: Add PHP repository
+  become: yes
+  community.general.zypper_repository:
+    name: openSUSE:Factory
+    repo: 'https://download.opensuse.org/tumbleweed/repo/oss/'
+    state: present
+- name: Remove PHP 8
+  become: yes
+  community.general.zypper:
+    name: php8
+    state: removed
 - name: Install PHP {{ php_version }} and Magento PHP Dependencies
+  become: yes
   community.general.zypper:
     name: [
         "php{{ php_version }}",
@@ -12,9 +24,10 @@
         "php{{ php_version }}-intl",
         "php{{ php_version }}-mbstring",
         "php{{ php_version }}-mysql",
-        "php{{ php_version }}-simplexml",
+      #        "php{{ php_version }}-simplexml",
         "php{{ php_version }}-soap",
         "php{{ php_version }}-xsl",
-        "php{{ php_version }}-zip"
+        "php{{ php_version }}-zip",
+        "phpMyAdmin"
     ]
     state: latest
