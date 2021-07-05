@@ -2,19 +2,19 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.define "mage_app" do |mage_app|
-    mage_app.vm.box = "opensuse/Tumbleweed.x86_64"
-    mage_app.vm.hostname = 'mage'
-    mage_app.ssh.shell = 'sh'
-    mage_app.vm.network "private_network", ip: "192.168.56.225"
-    mage_app.vm.provision "file", source: "/home/ratio/.ssh/hillel_1.pub", destination: "/home/vagrant/.ssh/me.pub"
-    mage_app.vm.provision "shell", inline: "cat /home/vagrant/.ssh/me.pub >> /home/vagrant/.ssh/authorized_keys"
-    mage_app.vm.synced_folder '.', '/vagrant', id: 'vagrant-root', disabled: true
-    mage_app.vm.provision :ansible do |ansible|
+  config.vm.define "app_server" do |app_server|
+    app_server.vm.box = "opensuse/Tumbleweed.x86_64"
+    app_server.vm.hostname = 'mage'
+    app_server.ssh.shell = 'sh'
+    app_server.vm.network "private_network", ip: "192.168.56.225"
+    app_server.vm.provision "file", source: "/home/ratio/.ssh/hillel_1.pub", destination: "/home/vagrant/.ssh/me.pub"
+    app_server.vm.provision "shell", inline: "cat /home/vagrant/.ssh/me.pub >> /home/vagrant/.ssh/authorized_keys"
+    app_server.vm.synced_folder '.', '/vagrant', id: 'vagrant-root', disabled: true
+    app_server.vm.provision :ansible do |ansible|
       ansible.playbook = 'playbook.yml'
       ansible.verbose = "vvv"
     end
-    mage_app.vm.provision "shell",
+    app_server.vm.provision "shell",
       inline: <<-SCRIPT_DOC
         zypper update -y
         zypper install -y python

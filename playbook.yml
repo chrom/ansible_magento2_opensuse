@@ -7,7 +7,7 @@
   roles:
     - { role: configuration, tags: ["configuration"] }
 
-- hosts: mage_app
+- hosts: app_server
   remote_user: devops_user
   vars_files:
     - vars/external_vars.yml

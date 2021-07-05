@@ -13,12 +13,26 @@
     name: docker-compose
     state: present
 
+- name: Make sure a service docker is running
+  become: yes
+  become_user: docker
+  ansible.builtin.systemd:
+    enabled: yes
+    state: started
+    name: docker
+
+- name: 'add users to docker group'
+  become: yes
+  user:
+    name: 'docker'
+    groups: 'docker'
+    append: 'yes'
 
 - name: Create Folder for project
-  become_user: devops_user
-  become: yes
+#  become_user: devops_user
+#  become: yes
   file:
-    path: /home/devops_user/project
+    path: /home/vagrant/project
     mode: 0755
     state: directory
   vars:
@@ -26,14 +40,18 @@
 
 
 - name: Download magento 2 installer
-  become: yes
-  become_user: devops_user
+#  become: yes
+#  become_user: devops_user
   get_url:
     url: https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup
-    dest: /home/devops_user/project/onelinesetup
+    dest: /home/vagrant/project/onelinesetup
     mode: 0755
 
-- name: Run magento 2 docker
-  become: yes
-  become_user: devops_user
-  shell: cd ~/project && /bin/bash ~/project/onelinesetup -- magento.test 2.4.2
+#- name: Run magento 2 docker
+#  become: yes
+#  become_user: devops_user
+#  shell: cd ~/project && /bin/bash ~/project/onelinesetup -- magento.test 2.4.2
+#  ignore_errors: yes
+
+- name: Run a script only if file.txt does not exist on the remote node
+  ansible.builtin.script: /home/ratio/projects/devops/hillel/ansible_magento2_opensuse/script.sh
