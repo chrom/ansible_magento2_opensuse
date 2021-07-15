@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
     app_server.vm.hostname = 'mage'
     app_server.ssh.shell = 'sh'
     app_server.vm.network "private_network", ip: "192.168.56.225"
-    app_server.vm.provision "file", source: "/home/ratio/.ssh/hillel_1.pub", destination: "/home/vagrant/.ssh/me.pub"
+    app_server.vm.provision "file", source: "~/.ssh/hillel_1.pub", destination: "/home/vagrant/.ssh/me.pub"
     app_server.vm.provision "shell", inline: "cat /home/vagrant/.ssh/me.pub >> /home/vagrant/.ssh/authorized_keys"
     app_server.vm.synced_folder '.', '/vagrant', id: 'vagrant-root', disabled: true
     app_server.vm.provision :ansible do |ansible|
@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
     app_server.vm.provision "shell",
       inline: <<-SCRIPT_DOC
         zypper update -y
-        zypper install -y python
+        zypper install -y python3
       SCRIPT_DOC
   end
 #     config.vm.define "mage_db" do |mage_db|

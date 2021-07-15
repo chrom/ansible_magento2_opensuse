@@ -1,0 +1,14 @@
+upstream fastcgi_backend {
+        server  unix:/run/php/php-fpm.sock;
+}
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        server_name {{ server_hostname }};
+
+        set $MAGE_ROOT {{ magento_dir }};
+
+        include /var/www/html/magento/nginx.conf.sample;
+}

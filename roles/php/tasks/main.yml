@@ -31,3 +31,15 @@
         "phpMyAdmin"
     ]
     state: latest
+
+- name: Prepare php-fpm configuration
+  become: yes
+  shell: cp -v /etc/php7/fpm/php-fpm.conf.default /etc/php7/fpm/php-fpm.conf && cp -v /etc/php7/fpm/php-fpm.d/www.conf.default /etc/php7/fpm/php-fpm.d/www.conf
+
+
+- name: Make sure a service php-fpm is running
+  become: yes
+  ansible.builtin.systemd:
+    enabled: yes
+    state: started
+    name: php-fpm

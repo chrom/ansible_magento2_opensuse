@@ -1,0 +1,27 @@
+---
+# tasks file for elasticsearch
+- name: Elasticsearch repository for 7.x packages
+  become: yes
+  zypper_repository:
+    name: Elasticsearch
+    description: 'Elasticsearch is a distributed RESTful search engine built for the cloud.'
+    repo: 'https://artifacts.elastic.co/packages/7.x/yum'
+    auto_import_keys: yes
+    runrefresh: yes
+    state: present
+  tags:
+    - config
+
+- name: Install Elasticserach
+  become: yes
+  tags:
+    - install
+  community.general.zypper:
+    name: elasticsearch
+    state: latest
+
+- name: Make sure a service Elasticserach is running
+  become: yes
+  ansible.builtin.service:
+    state: started
+    name: elasticsearch

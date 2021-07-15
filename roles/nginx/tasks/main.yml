@@ -1,0 +1,26 @@
+---
+# tasks file for nginx
+- name: Install nginx.
+  become: yes
+  zypper:
+    name: nginx
+    state: present
+
+- name: Make sure a service nginx is running
+  become: yes
+  ansible.builtin.systemd:
+    enabled: yes
+    state: started
+    name: nginx
+
+- name: Add Nginx Configuration File
+  become: yes
+  template:
+    src: magento.j2
+    dest: /etc/nginx/vhosts.d
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify:
+    - Reload Nginx Configuration

@@ -1,24 +1,40 @@
 ---
 # tasks file for configuration
 - name: Update all packages
+  become: yes
   community.general.zypper:
     name: '*'
     state: dist-upgrade
     allow_vendor_change: true
+  tags:
+    - update
+    - install
+
+# Apply all available patches
+- zypper:
+    name: '*'
+    state: latest
+    type: patch
 
 - name: Ensure chrony (for time synchronization) is installed.
+  tags:
+    - config
   community.general.zypper:
     name: ntp
     state: present
 
 - name: Set Server Timezone to {{timezone}}
+  tags:
+    - config
   timezone:
     name: "{{timezone}}"
 
 - name: Add the user 'devops_user' with a specific uid and a primary group of 'admin'
+  tags:
+    - config
   ansible.builtin.user:
     name: devops_user
-    groups: root,users
+    groups: root,users,vagrant
     password: devops_user
     comment: devops user
     generate_ssh_key: yes
@@ -27,16 +43,25 @@
     uid: 1040
 
 - name: Install nmap
+  tags:
+    - config
+    - install
   community.general.zypper:
     name: nmap
     state: present
 
 - name: Install mc
+  tags:
+    - config
+    - install
   community.general.zypper:
     name: mc
     state: present
 
 - name: Installs git
+  tags:
+  - config
+  - install
   community.general.zypper:
     name: git
     state: present
@@ -45,9 +70,27 @@
   community.general.zypper:
     name: composer
     state: present
+  tags:
+    - config
+    - install
 
 - name: install setfacl support
+  tags:
+    - config
+    - install
   become: yes
   community.general.zypper:
     name: acl
     state: present
+
+- name: Display all variables/facts known for a host
+  debug:
+    var: hostvars[inventory_hostname]
+    verbosity: 3
+  tags:
+    - debug_info
+
+- name: Copy ansible facts to a file.
+  copy:
+    content: "{{ ansible_facts }}"
+    dest: ansible_facts_details.json

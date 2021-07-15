@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/vagrant/project
+cd ~/project
 git init -qqq
 git remote add origin https://github.com/markshust/docker-magento
 git fetch origin -qqq

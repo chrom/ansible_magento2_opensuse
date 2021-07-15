@@ -20,7 +20,7 @@ db_password: magento
 magento_public_key: MAGENTO_PUBLIC_KEY
 magento_private_key: MAGENTO_PRIVATE_KEY
 
-magento_mode: default
+magento_mode: production
 
 base_url: http://magento.local/
 use_rewrites: 1
