@@ -1,0 +1,58 @@
+---
+# tasks file for mariadb
+- name: Install MariaDB {{ mariadb_version }}
+  become: yes
+  zypper:
+    name: [
+        "mariadb",
+        "python39-pip",
+        "mariadb-tools"
+    ]
+    state: installed
+
+- name: Install dependencies
+  become: yes
+  zypper:
+    name:
+      - python3
+      - python3-pip
+      - python3-setuptools
+    state: latest
+- name: Install required pip packages
+  pip:
+    name:
+      - PyMySQL
+    executable: pip
+
+- name: Add MariaDB (MySQL) Configuration File
+  become: yes
+  template:
+    src: my.cnf.j2
+    dest: /etc/my.cnf.d/my.cnf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: yes
+  notify:
+    - Restart MariaDB Service
+
+#
+- name: Start MariaDB Service
+  become: yes
+  service:
+    name: mariadb
+    state: started
+    enabled: true
+
+#
+#- name: Set Magento Database User
+#  mysql_user:
+#    name: "{{ db_user }}"
+#    password: "{{ db_password }}"
+#    priv: "*.*:ALL"
+#    state: present
+##
+#- name: Set Magento Database
+#  mysql_db:
+#    name: "{{ db_name }}"
+#    state: present

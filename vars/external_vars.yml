@@ -10,11 +10,7 @@ mariadb_version: 10.4
 server_hostname: magento.local
 magento_dir: /var/www/html/magento
 
-# Database configuration
-db_host: localhost
-db_name: magento
-db_user: magento
-db_password: magento
+
 
 # Magento configuration
 magento_public_key: MAGENTO_PUBLIC_KEY

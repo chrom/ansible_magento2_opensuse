@@ -12,10 +12,11 @@
   vars_files:
     - vars/external_vars.yml
   roles:
-    - { role: php, tags: ["install"] }
-    - { role: elasticsearch, tags: ["install"] }
-    - { role: nginx, tags: ["install"] }
-    - { role: mariadb, tags: ["install"] }
+#    - { role: php, tags: ["install"] }
+#    - { role: elasticsearch, tags: ["install"] }
+#    - { role: nginx, tags: ["install"] }
+#    - { role: mariadb, tags: ["install"] }
+    - { role: ansible-role-mysql, become: yes, tags: ["install", "db"]}
 #    - { role: docker, tags: ["install"] }
 
 #  tasks:

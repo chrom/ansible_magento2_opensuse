@@ -1,0 +1,3 @@
+[submodule "roles/ansible-role-mysql"]
+	path = roles/ansible-role-mysql
+	url = git@github.com:chrom/ansible-role-mysql.git
